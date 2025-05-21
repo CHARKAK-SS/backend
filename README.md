@@ -13,3 +13,5 @@ origin master
 - ssh -f -i (키 주소).pem ubuntu@(ec2 IP주소) -L 3307:(rds 엔드포인트):3306 -N
 - ps aux | grep ssh -> pid 확인
 - kill pid -> pid 종료
+
+- spring.datasource.url=jdbc:mysql://localhost:3307/CHARKAK?serverTimezone=Asia/Seoul 수정 필요
