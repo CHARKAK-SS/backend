@@ -28,6 +28,7 @@ public class UserController {
         }
 
         return ResponseEntity.ok(Map.of(
+                "id", user.getId(),    
                 "name", user.getName(),
                 "username", user.getUsername()
         ));
