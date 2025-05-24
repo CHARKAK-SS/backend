@@ -1,4 +1,4 @@
-package charkak.demo.controller;
+package charkak.demo.dto;
 
 import lombok.Getter;
 
