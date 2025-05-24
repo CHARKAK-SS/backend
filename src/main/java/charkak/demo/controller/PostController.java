@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,13 +78,37 @@ public class PostController {
         return postRepository.findAll();
     }
 
-    @GetMapping("/{id}")
+   @GetMapping("/{id}")
     public ResponseEntity<?> getPostById(@PathVariable Long id) {
-        Optional<Post> post = postRepository.findById(id);
-        if (post.isPresent()) {
-            return ResponseEntity.ok(post.get());
-        } else {
+        Optional<Post> postOpt = postRepository.findById(id);
+        if (postOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("게시글 없음");
         }
+
+        Post post = postOpt.get();
+        TagForPost tagForPost = tagForPostRepository.findByPost(post);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", post.getId());
+        response.put("placeName", post.getPlaceName());
+        response.put("dateTime", post.getDateTime().toString());
+        response.put("camera", post.getCamera());
+        response.put("lens", post.getLens());
+        response.put("aperture", post.getAperture());
+        response.put("shutterSpeed", post.getShutterSpeed());
+        response.put("iso", post.getIso());
+        response.put("weather", post.getWeather());
+        response.put("imageUrl", post.getImageUrl());
+        response.put("text", post.getText());
+
+        if (tagForPost != null) {
+            response.put("ratingTag", tagForPost.getRatingTag().getName());
+            response.put("countryTag", tagForPost.getCountryTag().getName());
+            response.put("cityTag", tagForPost.getCityTag().getName());
+            response.put("targetTag", tagForPost.getTargetTag().getName());
+        }
+
+        return ResponseEntity.ok(response);
     }
+
 }

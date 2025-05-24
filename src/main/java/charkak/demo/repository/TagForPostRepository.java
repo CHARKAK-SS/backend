@@ -1,8 +1,10 @@
 package charkak.demo.repository;
 
-import charkak.demo.model.TagForPost;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import charkak.demo.model.Post;
+import charkak.demo.model.TagForPost;
+
 public interface TagForPostRepository extends JpaRepository<TagForPost, Long> {
-    // TagForPost 엔티티에 대한 CRUD를 JpaRepository가 제공
+    TagForPost findByPost(Post post);
 }
