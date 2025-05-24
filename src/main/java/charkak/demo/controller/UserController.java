@@ -28,7 +28,23 @@ public class UserController {
         }
 
         return ResponseEntity.ok(Map.of(
-                "name", user.getName()  // ✅ name 필드 반환
+                "name", user.getName(),
+                "username", user.getUsername()
         ));
     }
+
+    @PutMapping("/update-name")
+    public ResponseEntity<?> updateName(@RequestBody Map<String, String> request) {
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String newName = request.get("name");
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        user.setName(newName);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(Map.of("message", "닉네임이 수정되었습니다."));
+    }
+
 }
