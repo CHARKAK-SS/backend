@@ -1,22 +1,25 @@
 package charkak.demo.service;
 
-import lombok.RequiredArgsConstructor;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import javax.imageio.ImageIO;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.RequiredArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +55,33 @@ public class S3Uploader {
                 .getUrl(builder -> builder.bucket(bucket).key(fileName))
                 .toExternalForm();
 
+    }
+
+    public String uploadThumbnail(MultipartFile file, String dirName) throws IOException {
+        BufferedImage image = ImageIO.read(file.getInputStream());
+
+        BufferedImage thumbnail = Thumbnails.of(image)
+                                            .size(800, 800)
+                                            .asBufferedImage();
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(thumbnail, "jpg", baos);
+        byte[] bytes = baos.toByteArray();
+
+        String fileName = dirName + "/thumb/" + generateFileName() + ".jpg";
+
+        S3Client s3 = getS3Client();
+
+        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                .bucket(bucket)
+                .key(fileName)
+                .build();
+
+        s3.putObject(putObjectRequest, RequestBody.fromBytes(bytes));
+
+        return s3.utilities()
+                .getUrl(builder -> builder.bucket(bucket).key(fileName))
+                .toExternalForm();
     }
 
     private S3Client getS3Client() {

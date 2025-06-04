@@ -13,6 +13,7 @@ public class PostRequestDto {
     private String iso;
     private String weather;
     private String imageUrl;
+    private String thumbnailUrl;
     private String text;
     private Long userId;  // 유저 ID
 

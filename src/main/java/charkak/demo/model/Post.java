@@ -18,6 +18,8 @@ public class Post {
     private String iso;
     private String weather;
     private String imageUrl;
+    private String thumbnailUrl; //섬네일 url
+
 
     @Column(columnDefinition = "TEXT")
     private String text;

@@ -22,6 +22,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -51,6 +54,7 @@ public class PostController {
                 .iso(request.getIso())
                 .weather(request.getWeather())
                 .imageUrl(request.getImageUrl())
+                .thumbnailUrl(request.getThumbnailUrl())
                 .text(request.getText())
                 .user(userOpt.get())
                 .build();
@@ -76,8 +80,15 @@ public class PostController {
 
     // ✅ 전체 게시글 조회
     @GetMapping("/all")
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
+    public List<PostResponseDto> getAllPosts() {
+        List<Post> posts = postRepository.findAll();
+
+        return posts.stream().map(post -> {
+            TagForPost tag = tagForPostRepository.findByPost(post);
+            if (tag == null) tag = new TagForPost(); // 🔥 null 방지용 기본 객체
+
+            return new PostResponseDto(post, tag);
+        }).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
@@ -101,6 +112,7 @@ public class PostController {
         response.put("iso", post.getIso());
         response.put("weather", post.getWeather());
         response.put("imageUrl", post.getImageUrl());
+        response.put("thumbnailUrl", post.getThumbnailUrl());
         response.put("text", post.getText());
 
         if (tagForPost != null) {

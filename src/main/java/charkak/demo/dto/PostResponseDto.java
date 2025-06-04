@@ -10,6 +10,7 @@ public class PostResponseDto {
     private String placeName;
     private String dateTime;
     private String imageUrl;
+    private String thumbnailUrl;
     private String ratingTagName;
     private String countryTagName;
     private String cityTagName;
@@ -20,6 +21,7 @@ public class PostResponseDto {
         this.placeName = post.getPlaceName();
         this.dateTime = post.getDateTime().toString();
         this.imageUrl = post.getImageUrl();
+        this.thumbnailUrl = post.getThumbnailUrl();
         this.ratingTagName = tagForPost.getRatingTag() != null ? tagForPost.getRatingTag().getName() : null;
         this.countryTagName = tagForPost.getCountryTag() != null ? tagForPost.getCountryTag().getName() : null;
         this.cityTagName = tagForPost.getCityTag() != null ? tagForPost.getCityTag().getName() : null;
