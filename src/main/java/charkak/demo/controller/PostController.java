@@ -36,12 +36,11 @@ public class PostController {
     private final UserRepository userRepository;
     private final TagForPostRepository tagForPostRepository;
 
-    // ✅ 게시글 등록
     @PostMapping
     public String createPost(@RequestBody PostRequestDto request) {
         Optional<User> userOpt = userRepository.findById(request.getUserId());
         if (userOpt.isEmpty()) {
-            return "❌ 사용자 ID 없음";
+            return "사용자 ID 없음";
         }
 
         Post post = Post.builder()
@@ -60,7 +59,6 @@ public class PostController {
                 .build();
         postRepository.save(post);
 
-        // 태그 저장
         Tag ratingTag = tagRepository.findByName(request.getRatingTagName());
         Tag countryTag = tagRepository.findByName(request.getCountryTagName());
         Tag cityTag = tagRepository.findByName(request.getCityTagName());
@@ -75,17 +73,16 @@ public class PostController {
                 .build();
         tagForPostRepository.save(tagForPost);
 
-        return "✅ 포스트 저장 완료";
+        return "포스트 저장 완료";
     }
 
-    // ✅ 전체 게시글 조회
     @GetMapping("/all")
     public List<PostResponseDto> getAllPosts() {
         List<Post> posts = postRepository.findAll();
 
         return posts.stream().map(post -> {
             TagForPost tag = tagForPostRepository.findByPost(post);
-            if (tag == null) tag = new TagForPost(); // 🔥 null 방지용 기본 객체
+            if (tag == null) tag = new TagForPost();
 
             return new PostResponseDto(post, tag);
         }).collect(Collectors.toList());
