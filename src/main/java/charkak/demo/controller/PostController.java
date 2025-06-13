@@ -28,7 +28,7 @@ public class PostController {
     public String createPost(@RequestBody PostRequestDto request) {
         Optional<User> userOpt = userRepository.findById(request.getUserId());
         if (userOpt.isEmpty()) {
-            return "❌ 사용자 ID 없음";
+            return "사용자 ID 없음";
         }
 
         Post post = Post.builder()
@@ -46,7 +46,6 @@ public class PostController {
                 .build();
         postRepository.save(post);
 
-        // 태그 정보 저장
         Tag ratingTag = tagRepository.findByName(request.getRatingTagName());
         Tag countryTag = tagRepository.findByName(request.getCountryTagName());
         Tag cityTag = tagRepository.findByName(request.getCityTagName());
@@ -61,6 +60,6 @@ public class PostController {
                 .build();
         tagForPostRepository.save(tagForPost);
 
-        return "✅ 포스트 저장 완료";
+        return "포스트 저장 완료";
     }
 }
