@@ -24,5 +24,5 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;  // User 엔티티 참조
+    private User user;
 }
