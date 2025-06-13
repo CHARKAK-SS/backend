@@ -15,13 +15,13 @@ public class FileUploadController {
 
     @PostMapping("/upload")
     public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file) {
-        System.out.println("📥 업로드 요청 들어옴: " + file.getOriginalFilename());
+        System.out.println("업로드 요청: " + file.getOriginalFilename());
         try {
             String imageUrl = s3Uploader.upload(file, "calendar");
-            System.out.println("✅ 업로드 성공: " + imageUrl);
+            System.out.println("업로드 성공: " + imageUrl);
             return ResponseEntity.ok(imageUrl);
         } catch (Exception e) {
-            System.out.println("❌ 업로드 실패: " + e.getMessage());
+            System.out.println("업로드 실패: " + e.getMessage());
             return ResponseEntity.status(500).body("이미지 업로드 실패: " + e.getMessage());
         }
     }
