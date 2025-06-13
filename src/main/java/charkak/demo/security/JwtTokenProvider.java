@@ -10,11 +10,10 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    private final Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256); // 랜덤 키 생성 (고정하려면 문자열로도 가능)
+    private final Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    private final long EXPIRATION_TIME = 1000 * 60 * 60 * 1; // 1시간 (ms)
+    private final long EXPIRATION_TIME = 1000 * 60 * 60 * 1;
 
-    // ✅ 토큰 생성
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
@@ -24,12 +23,10 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // ✅ 토큰에서 유저명 가져오기
     public String getUsernameFromToken(String token) {
         return parseClaims(token).getBody().getSubject();
     }
 
-    // ✅ 토큰 유효성 검사
     public boolean validateToken(String token) {
         try {
             parseClaims(token);
@@ -39,7 +36,6 @@ public class JwtTokenProvider {
         }
     }
 
-    // 내부 파싱
     private Jws<Claims> parseClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
