@@ -18,7 +18,7 @@ public class Post {
     private String iso;
     private String weather;
     private String imageUrl;
-    private String thumbnailUrl; //섬네일 url
+    private String thumbnailUrl;
 
 
     @Column(columnDefinition = "TEXT")
@@ -26,5 +26,5 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;  // User 엔티티 참조
+    private User user;
 }
