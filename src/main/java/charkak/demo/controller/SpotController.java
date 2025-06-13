@@ -17,13 +17,11 @@ public class SpotController {
 
     private final SpotService spotService;
 
-    // 🔍 이름으로 검색
     @GetMapping("/search")
     public List<Spot> search(@RequestParam String keyword) {
         return spotService.searchByKeyword(keyword);
     }
 
-    // ➕ 장소 추가
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Map<String, String> body) {
         String name = body.get("name");
@@ -37,8 +35,7 @@ public class SpotController {
                     .body(Map.of("error", e.getMessage()));
         }
     }
-
-    // 📋 전체 목록 반환
+    
     @GetMapping
     public List<Spot> findAll() {
         return spotService.findAll();
