@@ -42,7 +42,6 @@ public class UserService {
             throw new RuntimeException("비밀번호가 일치하지 않습니다.");
         }
 
-        // 로그인 성공 → JWT 토큰 발급
         return jwtTokenProvider.generateToken(user.getUsername());
     }
 
