@@ -14,12 +14,12 @@ public class SpotService {
     private final SpotRepository spotRepository;
 
     public List<Spot> searchByKeyword(String keyword) {
-        String sanitized = keyword.replaceAll("\\s+", ""); // 검색어에서 공백 제거
-        return spotRepository.searchBySanitizedName(sanitized); // 새 쿼리 사용
+        String sanitized = keyword.replaceAll("\\s+", "");
+        return spotRepository.searchBySanitizedName(sanitized);
     }
 
     public Spot createSpot(String name, String address) {
-        String sanitizedInputName = name.replaceAll("\\s+", ""); // 공백 제거
+        String sanitizedInputName = name.replaceAll("\\s+", "");
 
         List<Spot> existing = spotRepository.findByNameIgnoreSpaces(sanitizedInputName);
         if (!existing.isEmpty()) {
