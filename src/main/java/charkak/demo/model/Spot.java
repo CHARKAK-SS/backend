@@ -16,10 +16,10 @@ public class Spot {
     private Long id;
 
     @Column(nullable = false)
-    private String name;  // 장소명
+    private String name;
 
     @Column(nullable = false)
-    private String address;  // 주소
+    private String address;
 
-    private String imageUrl; // 대표 이미지 URL (선택사항)
+    private String imageUrl;
 }
