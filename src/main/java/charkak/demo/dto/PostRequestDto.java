@@ -14,9 +14,8 @@ public class PostRequestDto {
     private String weather;
     private String imageUrl;
     private String text;
-    private Long userId;  // 유저 ID
+    private Long userId;
 
-    // 태그명
     private String ratingTagName;
     private String countryTagName;
     private String cityTagName;
