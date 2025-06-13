@@ -19,13 +19,13 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String username; // 사용자 아이디 (중복 X)
+    private String username;
 
     @Column(nullable = false)
-    private String name; // 이름
+    private String name;
 
     @Column(nullable = false)
-    private String password; // 비밀번호 (암호화됨)
+    private String password;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
