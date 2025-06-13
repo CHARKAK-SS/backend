@@ -24,17 +24,17 @@ public class Calendar {
     private User user;
 
     @Column(nullable = false)
-    private LocalDate date; // 캘린더에 해당하는 날짜
+    private LocalDate date;
 
     @Column(nullable = true)
-    private String location; // 출사 장소
+    private String location;
 
     @Column(nullable = true, length = 1000)
-    private String diaryText; // 일기 내용
+    private String diaryText;
 
     @Column(nullable = true)
-    private String imageUrl; // EC2에 업로드된 이미지 URL
+    private String imageUrl;
 
     @Column(nullable = false)
-    private LocalDateTime createdAt; // 생성 일시
+    private LocalDateTime createdAt;
 }
