@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class PostRequestDto {
     private String placeName;
-    private String dateTime; // "2025-05-24T17:28:00"
+    private String dateTime;
     private String camera;
     private String lens;
     private String aperture;
