@@ -19,15 +19,14 @@ public class CalendarService {
 
     private final CalendarRepository calendarRepository;
     private final UserRepository userRepository;
-    private final S3Uploader s3Uploader; // ✅ S3Uploader 주입
+    private final S3Uploader s3Uploader;
 
     public Calendar saveCalendar(Calendar calendar, String username, MultipartFile imageFile) throws IOException {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
 
-        // ✅ S3에 업로드
         if (imageFile != null && !imageFile.isEmpty()) {
-            String imageUrl = s3Uploader.upload(imageFile, "calendar"); // "calendar"는 S3 디렉토리 이름
+            String imageUrl = s3Uploader.upload(imageFile, "calendar");
             calendar.setImageUrl(imageUrl);
         }
 
@@ -46,7 +45,6 @@ public class CalendarService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
 
-        // S3 업로드
         String imageUrl = s3Uploader.upload(imageFile, "calendar");
         calendar.setImageUrl(imageUrl);
         calendar.setUser(user);
